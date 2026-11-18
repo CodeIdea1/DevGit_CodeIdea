@@ -875,6 +875,7 @@ export default function Blogs() {
     }
   };
 
+  
   /* cover drift follows the pointer (CSS variables, no re-render) */
   const onCardMove = (e: RPointerEvent<HTMLElement>) => {
     const el = e.currentTarget;
