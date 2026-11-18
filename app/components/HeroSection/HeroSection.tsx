@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef, useState, useEffect, useCallback } from "react";
 import styles from "./HeroSection.module.css";
+import { HERO_PARTICLES } from "./heroParticles";
 
 /* ══════════════════════════════════════════════
    Head component (الراس + الميوزك)
@@ -183,15 +184,6 @@ const NOTES = [
 ] as const;
 
 const NOTE_ARROWS = { rd: "/arrow2.webp", dl: "/arrow-left.webp", ru: "/arrow-flip.webp" } as const;
-// أماكن ثابتة (مش random) عشان ميحصلش hydration mismatch
-const PARTICLES = Array.from({ length: 18 }, (_, i) => ({
-  left: (i * 37 + 11) % 100,
-  top: (i * 53 + 7) % 75,
-  size: 3 + (i % 4) * 2,
-  delay: -((i % 7) * 1.7),
-  dur: 9 + (i % 5) * 2,
-}));
-
 const stepCls: Record<string, string> = {
   layout: styles.imgLayout,
   texts:  styles.imgTexts,
@@ -591,7 +583,7 @@ export default function HeroSection() {
       </div>
 
       <div className={styles.particles} aria-hidden="true">
-        {PARTICLES.map((p, i) => (
+        {HERO_PARTICLES.map((p, i) => (
           <span
             key={i}
             className={styles.particle}

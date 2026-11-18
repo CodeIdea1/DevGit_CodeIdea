@@ -5,6 +5,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import type { CSSProperties, FormEvent, MouseEvent as RMouseEvent, PointerEvent as RPointerEvent } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Lenis from "lenis";
 import styles from "./Blogs.module.css";
 
 /* ═══════════════════════════════════════════
@@ -773,9 +774,25 @@ export default function Blogs() {
     const sc = scrollRef.current;
     if (!el || !sc) return;
     sc.scrollTop = 0;
+    const content = sc.firstElementChild;
+    if (!content) return;
     if (progFillRef.current) progFillRef.current.style.transform = "scaleX(0)";
-    if (progPlaneRef.current) progPlaneRef.current.style.left = "0%";
+    if (progPlaneRef.current) {
+      progPlaneRef.current.style.transform = "translate3d(0, -50%, 0) translateX(-50%)";
+    }
     const reduce = prefersReduced();
+    const readerLenis = new Lenis({
+      wrapper: sc,
+      content,
+      duration: 0.85,
+      easing: (t) => 1 - Math.pow(1 - t, 3),
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 1.2,
+    });
+    readerLenis.on("scroll", ScrollTrigger.update);
+    const rafFn = (time: number) => readerLenis.raf(time * 1000);
+    gsap.ticker.add(rafFn);
 
     if (!shownRef.current) {
       shownRef.current = true;
@@ -811,13 +828,24 @@ export default function Blogs() {
         });
       }
       gsap.utils.toArray<HTMLElement>("[data-r-fade]", el).forEach((node) => {
-        gsap.from(node, {
-          y: 34, opacity: 0, duration: 0.9, ease: "power3.out",
+        gsap.fromTo(node, {
+          y: 24,
+          opacity: 0,
+        }, {
+          y: 0,
+          opacity: 1,
+          duration: 0.75,
+          ease: "power2.out",
           scrollTrigger: { trigger: node, scroller: sc, start: "top 92%", once: true },
         });
       });
     }, el);
-    return () => ctx.revert();
+    return () => {
+      ctx.revert();
+      readerLenis.off("scroll", ScrollTrigger.update);
+      gsap.ticker.remove(rafFn);
+      readerLenis.destroy();
+    };
   }, [openId]);
 
   useEffect(() => {
@@ -842,7 +870,9 @@ export default function Blogs() {
     const max = el.scrollHeight - el.clientHeight;
     const p = max > 0 ? Math.min(1, el.scrollTop / max) : 0;
     if (progFillRef.current) progFillRef.current.style.transform = `scaleX(${p})`;
-    if (progPlaneRef.current) progPlaneRef.current.style.left = `${p * 100}%`;
+    if (progPlaneRef.current) {
+      progPlaneRef.current.style.transform = `translate3d(${p * window.innerWidth}px, -50%, 0) translateX(-50%)`;
+    }
   };
 
   /* cover drift follows the pointer (CSS variables, no re-render) */

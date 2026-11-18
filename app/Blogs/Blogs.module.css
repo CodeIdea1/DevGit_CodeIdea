@@ -1297,7 +1297,6 @@
   z-index: 1000;
   color: var(--ink);
   background: var(--mist);
-  will-change: clip-path;
 }
 
 .reader::before {
@@ -1339,6 +1338,7 @@
   background: var(--ink);
   transform: scaleX(0);
   transform-origin: left center;
+  will-change: transform;
 }
 
 .progPlane {
@@ -1346,7 +1346,8 @@
   top: 50%;
   left: 0;
   width: 38px;
-  translate: -50% -50%;
+  transform: translate3d(0, -50%, 0) translateX(-50%);
+  will-change: transform;
 }
 
 .close {
