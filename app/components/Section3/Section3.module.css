@@ -1,0 +1,1076 @@
+/* noise مشترك بين Section2/3/4 */
+:root {
+  --noise-bg: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+}
+
+.section {
+  /* ── متغيرات ضبط الصور (عدّل منها براحتك) ── */
+  --side-h: 58%;
+  --side-top: 0%;
+  --side-bottom: 0%;
+  --side-off: -12vw;
+  --top-w: 30vw;
+
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: visible;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6vw 4vw;
+  background: transparent;
+}
+
+.section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-color: rgba(100, 180, 220, 0.12);
+  background-image: var(--noise-bg);
+  background-repeat: repeat;
+  background-size: 120px 120px;
+  opacity: 0.75;
+}
+
+.content {
+  position: relative;
+  z-index: 5;
+  text-align: center;
+  max-width: 780px;
+  pointer-events: none;
+}
+
+.title {
+  font-family: var(--font-orbitron), sans-serif;
+  font-size: clamp(20px, 3.5vw, 52px);
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: 0.02em;
+  color: #1d272e;
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  font-family: var(--font-caveat), cursive;
+  font-size: clamp(20px, 2.4vw, 36px);
+  color: #37506a;
+  margin-bottom: 2.4rem;
+}
+
+.buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  font-family: var(--font-orbitron), sans-serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.9rem 2rem;
+  border-radius: 999px;
+  border: 1.5px solid #010d1a;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
+}
+
+.btnPrimary {
+  background: #010d1a;
+  color: #f7f7f7;
+}
+
+.btnPrimary:hover {
+  transform: translateY(-3px);
+  background: #0b2233;
+}
+
+.btnGhost {
+  background: transparent;
+  color: #1d272e;
+}
+
+.btnGhost:hover {
+  transform: translateY(-3px);
+  background: #010d1a;
+  color: #f7f7f7;
+}
+
+/* ═══════════════════════════════════════════
+   طبقة القص: بتحتوي الصور الخمسة فقط
+   ═══════════════════════════════════════════ */
+.clipLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* ── الصور ── */
+.imgWrap {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.sideBox {
+  height: var(--side-h);
+  width: auto;
+  aspect-ratio: 1 / 1;
+}
+
+.sideBox .img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.imgRightTop    { top: var(--side-top);       right: var(--side-off); }
+.imgLeftTop     { top: var(--side-top);       left: var(--side-off);  }
+.imgRightBottom { bottom: var(--side-bottom); right: var(--side-off); }
+.imgLeftBottom  { bottom: var(--side-bottom); left: var(--side-off);  }
+
+.imgTop {
+  top: -5%;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: var(--top-w);
+}
+
+/* ═══════════════════════════════════════════
+   الكونتينر السفلي (برّه طبقة القص)
+   ═══════════════════════════════════════════ */
+.imgBottom {
+  bottom: -6%;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 36vw;
+  aspect-ratio: 2 / 1;
+  overflow: hidden;
+  border-radius: 0;
+  z-index: 1;
+  background: linear-gradient(135deg, #98AFBB 0%, #E1E1DF 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5vw;
+  pointer-events: auto;
+  cursor: default;
+  will-change: transform;
+  transform-origin: 0 0;
+}
+
+/* ── شريط الصور المتحرك (ماركي) ── */
+.containerTrack {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  width: max-content;
+  will-change: transform;
+  transform-origin: 0 100%;
+}
+
+.containerTrackInner {
+  display: flex;
+  width: max-content;
+  animation: marqueSlide 48s linear infinite;
+}
+
+@keyframes marqueSlide {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.containerImage {
+  display: block;
+  width: 26vw;
+  min-width: 26vw;
+  height: auto;
+  flex: none;
+  opacity: 0.55;
+}
+
+/* ═══════════════════════════════════════════
+   طبقة صور المشاريع
+   ═══════════════════════════════════════════ */
+.projLayer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--proj-w, 13vw);
+  height: var(--proj-w, 13vw);
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
+}
+
+.projItem {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.projImg {
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+.projItem[data-active="true"] .projImg {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+/* ═══════════════════════════════════════════
+   Hover Badge (بياخد لون المشروع الحالي)
+   ═══════════════════════════════════════════ */
+.hoverBadge {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 30;
+  width: 124px;
+  height: 124px;
+  border-radius: 50%;
+  background: var(--badge-bg, #1d272e);
+  color: var(--badge-fg, #f7f7f7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+  text-align: center;
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+  will-change: transform;
+  font-family: var(--font-orbitron), sans-serif;
+  box-shadow: 0 10px 30px rgba(29, 39, 46, 0.25);
+}
+
+.hoverBadge::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 1.5px solid var(--badge-bg, #1d272e);
+  animation: badgePulse 1.8s ease-out infinite;
+}
+
+@keyframes badgePulse {
+  0%   { transform: scale(1);   opacity: 0.7; }
+  100% { transform: scale(1.6); opacity: 0;   }
+}
+
+.badgeSmall {
+  font-size: 0.5rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.65;
+}
+
+.badgeMain {
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  padding: 0 0.6rem;
+}
+
+.badgeArrow {
+  font-size: 1.1rem;
+  line-height: 1;
+  margin-top: 0.1rem;
+}
+
+/* ═══════════════════════════════════════════
+   الأوفرلاي
+   ═══════════════════════════════════════════ */
+.overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 60;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 4vw;
+  padding: clamp(140px, 22vh, 250px) clamp(24px, 6vw, 110px) 8vh;
+  box-sizing: border-box;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.overlayLeft {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 560px;
+}
+
+.mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+}
+
+.maskInner {
+  display: block;
+  will-change: transform;
+}
+
+.ovTitle {
+  font-family: var(--font-orbitron), sans-serif;
+  font-size: clamp(26px, 4vw, 64px);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: 0.02em;
+  color: #1d272e;
+  margin: 0 0 1.4rem;
+}
+
+.ovDesc {
+  font-size: clamp(14px, 1.15vw, 18px);
+  line-height: 1.6;
+  color: #1d272e;
+  margin: 0 0 2rem;
+}
+
+.ctaWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.9rem;
+  width: 100%;
+}
+
+.cta {
+  pointer-events: auto;
+  font-family: var(--font-orbitron), sans-serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.95rem 2.2rem;
+  border-radius: 999px;
+  background: #1d272e;
+  color: #f7f7f7;
+  border: 1.5px solid #1d272e;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.cta:hover {
+  background: transparent;
+  color: #1d272e;
+  transform: translateY(-3px);
+}
+
+.ctaLine {
+  display: block;
+  width: 100%;
+  height: 1.5px;
+  background: #1d272e;
+  transform-origin: left center;
+}
+
+.stats {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(14px, 3vh, 34px);
+  min-width: clamp(170px, 18vw, 280px);
+  text-align: left;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  will-change: transform, opacity;
+}
+
+.statValue {
+  font-family: var(--font-orbitron), sans-serif;
+  font-size: clamp(30px, 3.6vw, 58px);
+  font-weight: 600;
+  line-height: 1;
+  color: #1d272e;
+}
+
+.statLabel {
+  font-size: clamp(12px, 1vw, 16px);
+  letter-spacing: 0.04em;
+  color: #1d272e;
+}
+
+.statLine {
+  display: block;
+  margin-top: 0.7rem;
+  height: 1px;
+  background: rgba(29, 39, 46, 0.35);
+  transform-origin: left center;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Project Viewer  (ثيم لكل مشروع عن طريق المتغيرات:
+   --accent / --accent-2 / --bg / --on-accent)
+   ═══════════════════════════════════════════════════════ */
+.viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: var(--accent);
+}
+
+.vStage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: #f4f1ea;
+  background:
+    radial-gradient(
+      1100px 640px at 86% 8%,
+      color-mix(in srgb, var(--accent) 20%, transparent),
+      transparent 62%
+    ),
+    radial-gradient(
+      820px 520px at 0% 100%,
+      color-mix(in srgb, var(--accent-2) 26%, transparent),
+      transparent 70%
+    ),
+    var(--bg);
+}
+
+/* grain خفيف */
+.vStage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: var(--noise-bg);
+  background-size: 140px 140px;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+}
+
+/* خطوط grid رأسية دقيقة بتتلاشى ناحية الأطراف */
+.vStage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0.045) 0,
+    rgba(255, 255, 255, 0.045) 1px,
+    transparent 1px,
+    transparent 16.6667%
+  );
+  -webkit-mask-image: radial-gradient(ellipse at 60% 40%, #000 20%, transparent 78%);
+  mask-image: radial-gradient(ellipse at 60% 40%, #000 20%, transparent 78%);
+}
+
+.vGhost {
+  position: absolute;
+  left: 1vw;
+  bottom: -9vw;
+  font-family: var(--font-orbitron), sans-serif;
+  font-size: 38vw;
+  font-weight: 700;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--accent) 38%, transparent);
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+}
+
+.vChar   { display: inline-block; transform: translateY(115%); will-change: transform; }
+.vStage [data-v="chrome"],
+.vStage [data-v="fade"],
+.vStage [data-v="frame"] { opacity: 0; }
+
+/* ── الهيدر ── */
+.vTop {
+  position: relative;
+  z-index: 3;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: clamp(16px, 3.4vh, 34px) clamp(20px, 6vw, 96px) 0;
+}
+
+.vBrand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: var(--font-orbitron), sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(244, 241, 234, 0.72);
+}
+
+.vBrandDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+.vCount {
+  margin-left: auto;
+  margin-right: 1.4rem;
+  font-family: var(--font-orbitron), sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  color: rgba(244, 241, 234, 0.55);
+}
+
+.vCount b {
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.vCount i {
+  font-style: normal;
+  margin: 0 0.35em;
+  opacity: 0.5;
+}
+
+.vClose {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem 1.1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(244, 241, 234, 0.22);
+  background: rgba(244, 241, 234, 0.04);
+  color: #f4f1ea;
+  font-family: var(--font-orbitron), sans-serif;
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+
+.vClose:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+  transform: scale(1.04);
+}
+
+/* ── الجريد الرئيسي ── */
+.vGrid {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(300px, 0.78fr) 1.5fr;
+  gap: clamp(28px, 4.4vw, 80px);
+  align-items: center;
+  padding: 2vh clamp(20px, 6vw, 96px) 12vh;
+}
+
+.vInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.2rem;
+  min-width: 0;
+}
+
+.vKicker {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-family: var(--font-orbitron), sans-serif;
+  font-size: 0.66rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.vKicker::before {
+  content: "";
+  width: 30px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.vTitle {
+  margin: 0;
+  font-family: var(--font-orbitron), sans-serif;
+  font-size: clamp(40px, 6.2vw, 108px);
+  font-weight: 600;
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: #f7f4ee;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.vMask {
+  display: inline-block;
+  overflow: hidden;
+  padding: 0.04em 0 0.12em;
+}
+
+.vMeta {
+  display: flex;
+  gap: clamp(20px, 3vw, 44px);
+  width: 100%;
+  max-width: 440px;
+  padding: 0.95rem 0;
+  border-top: 1px solid rgba(244, 241, 234, 0.12);
+  border-bottom: 1px solid rgba(244, 241, 234, 0.12);
+}
+
+.vMeta div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.vMeta span {
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(244, 241, 234, 0.45);
+}
+
+.vMeta strong {
+  font-family: var(--font-orbitron), sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: #f4f1ea;
+}
+
+.vDesc {
+  margin: 0;
+  max-width: 420px;
+  font-size: clamp(14px, 1.08vw, 17px);
+  line-height: 1.7;
+  color: rgba(244, 241, 234, 0.7);
+}
+
+/* tabs الـ variants بشكل segmented */
+.vChips {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  border: 1px solid rgba(244, 241, 234, 0.14);
+  background: rgba(244, 241, 234, 0.03);
+}
+
+.vChip {
+  padding: 0.55rem 1.05rem;
+  border-radius: 999px;
+  border: 0;
+  background: transparent;
+  color: rgba(244, 241, 234, 0.75);
+  font-family: var(--font-orbitron), sans-serif;
+  font-size: 0.64rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.vChip:hover {
+  color: #fff;
+}
+
+.vChipActive {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.vChipActive:hover {
+  color: var(--on-accent);
+}
+
+.vVisit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-top: 0.3rem;
+  padding: 0.5rem 0.5rem 0.5rem 1.6rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-family: var(--font-orbitron), sans-serif;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.vVisit span {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--on-accent);
+  color: var(--accent);
+  font-size: 1rem;
+  transition: transform 0.35s ease;
+}
+
+.vVisit:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 38px color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+.vVisit:hover span {
+  transform: rotate(45deg);
+}
+
+.vHint {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: rgba(244, 241, 234, 0.45);
+}
+
+.vHint::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: vBlink 1.6s ease-in-out infinite;
+}
+
+@keyframes vBlink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.25; }
+}
+
+/* ── إطار المتصفح ── */
+.vFrame {
+  height: min(66vh, 660px);
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #0d1114;
+  box-shadow:
+    0 50px 90px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(244, 241, 234, 0.1),
+    0 0 110px color-mix(in srgb, var(--accent) 20%, transparent);
+  will-change: transform;
+}
+
+.vBar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 16px;
+  height: 42px;
+  background: rgba(244, 241, 234, 0.04);
+  border-bottom: 1px solid rgba(244, 241, 234, 0.08);
+}
+
+.vBar i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(244, 241, 234, 0.18);
+}
+
+.vUrl {
+  margin: 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 5px 18px;
+  border-radius: 999px;
+  background: rgba(244, 241, 234, 0.06);
+  font-size: 0.7rem;
+  letter-spacing: 0.03em;
+  color: rgba(244, 241, 234, 0.68);
+  transform: translateX(-20px);
+}
+
+.vUrl::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.vScreen {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  background: #0b0e11;
+}
+
+/* الـ iframes دايمة (مش بتتعمل لها remount) — الحجم والـ scale بيجوا من JS */
+.vIframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--fw, 1280px);
+  height: var(--fh, 800px);
+  border: 0;
+  transform: scale(var(--fs, 0.5));
+  transform-origin: 0 0;
+  background: #fff;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.45s ease;
+}
+
+.vIframeActive {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* poster بيظهر لحد ما الموقع يجهز */
+.vPoster {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      60% 60% at 50% 45%,
+      color-mix(in srgb, var(--accent) 18%, transparent),
+      transparent 70%
+    ),
+    #0b0e11;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.vPoster::before {
+  content: "";
+  position: absolute;
+  inset: 12% 20%;
+  background: var(--poster) center / contain no-repeat;
+  animation: vFloat 3.2s ease-in-out infinite;
+}
+
+.vPoster p {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 9%;
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-orbitron), sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(244, 241, 234, 0.5);
+}
+
+.vProg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  overflow: hidden;
+  background: rgba(244, 241, 234, 0.06);
+}
+
+.vProg::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 38%;
+  background: var(--accent);
+  animation: vSlide 1.1s ease-in-out infinite;
+}
+
+.vPosterDone {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+@keyframes vSlide {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(300%); }
+}
+
+@keyframes vFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+/* ── التنقل السفلي ── */
+.vNav {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: clamp(16px, 4vh, 40px);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 2.4vw, 34px);
+  pointer-events: none;
+}
+
+.vNav > * {
+  pointer-events: auto;
+}
+
+.vArrow {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid rgba(244, 241, 234, 0.22);
+  background: transparent;
+  color: #f4f1ea;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+
+.vArrow:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+  transform: scale(1.08);
+}
+
+.vDots {
+  display: flex;
+  gap: 10px;
+}
+
+.vDot {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border-radius: 999px;
+  border: 0;
+  background: rgba(244, 241, 234, 0.28);
+  cursor: pointer;
+  transition: width 0.4s ease, background 0.3s ease;
+}
+
+.vDotActive {
+  width: 34px;
+  background: var(--accent);
+}
+
+/* ── موبايل ── */
+@media (max-width: 768px) {
+  .section {
+    --side-h: 38%;
+    --side-top: 3%;
+    --side-bottom: 3%;
+    --side-off: -12vw;
+    --top-w: 40vw;
+  }
+
+  .overlay {
+    flex-direction: column;
+    gap: 2rem;
+    padding-top: 130px;
+  }
+
+  .stats {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1.2rem 2rem;
+    min-width: 0;
+  }
+
+  .stat {
+    min-width: 40%;
+  }
+
+  .hoverBadge {
+    display: none;
+  }
+
+  .vCount {
+    display: none;
+  }
+
+  .vTop {
+    padding-top: 16px;
+  }
+
+  .vGrid {
+    grid-template-columns: 1fr;
+    align-content: start;
+    gap: 24px;
+    padding: 18px 20px 110px;
+    overflow-y: auto;
+  }
+
+  .vTitle {
+    font-size: clamp(40px, 15vw, 72px);
+  }
+
+  .vFrame {
+    height: 44vh;
+  }
+
+  .vDesc {
+    max-width: none;
+  }
+
+  .vMeta {
+    max-width: none;
+  }
+}

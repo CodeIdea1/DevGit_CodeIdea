@@ -1,0 +1,483 @@
+/* ═══════════════════════════════════════════
+   Footer v2 — أهدى للعين: سلات ناعم بدل الأسود، مسافات أوسع، حركة أقل وأذكى
+   ═══════════════════════════════════════════ */
+.footer {
+  --f-bg: #1b2730;
+  --f-ink: #eeece6;
+  --f-dim: rgba(238, 236, 230, 0.68);
+  --f-faint: rgba(238, 236, 230, 0.14);
+  --f-accent: #86c5e4;
+
+  position: relative;
+  width: 100%;
+  background: transparent;
+  overflow: hidden;
+}
+
+.panel {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(800px 480px at 85% 0%, rgba(134, 197, 228, 0.12), transparent 65%),
+    var(--f-bg);
+  color: var(--f-ink);
+  padding: clamp(72px, 12vh, 150px) clamp(20px, 6vw, 110px) clamp(20px, 4vh, 36px);
+}
+
+.panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: var(--noise-bg);
+  background-size: 120px 120px;
+  opacity: 0.05;
+  mix-blend-mode: screen;
+}
+
+.spot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 640px;
+  height: 640px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(134, 197, 228, 0.13), transparent 65%);
+}
+
+/* ── الجزء الأساسي ── */
+.hero {
+  position: relative;
+  z-index: 2;
+  max-width: 1180px;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin: 0 0 clamp(24px, 4vh, 44px);
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--f-faint);
+  font-size: 0.82rem;
+  color: var(--f-dim);
+}
+
+.live {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4fd36b;
+}
+
+/* الجملة: الكلمات الثابتة هادية والكلمات القابلة للتغيير هي اللي بتلفت النظر */
+.sentence {
+  margin: 0 0 clamp(32px, 5vh, 56px);
+  font-family: var(--font-orbitron), sans-serif;
+  font-size: clamp(22px, 3.3vw, 52px);
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0.01em;
+}
+
+.seg {
+  display: inline-block;
+  color: var(--f-dim);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  margin: 0.08em 0;
+  padding: 0.02em 0.5em 0.04em;
+  border-radius: 999px;
+  border: 1px dashed rgba(134, 197, 228, 0.55);
+  background: rgba(134, 197, 228, 0.09);
+  color: var(--f-ink);
+  font: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+  vertical-align: baseline;
+  transition: background 0.35s ease, border-color 0.35s ease, color 0.35s ease;
+}
+
+.chip:hover {
+  background: var(--f-accent);
+  border-color: var(--f-accent);
+  color: #1b2730;
+}
+
+.chip i {
+  font-style: normal;
+  font-size: 0.5em;
+  opacity: 0.7;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.chip:hover i {
+  transform: rotate(180deg);
+}
+
+.chipMask {
+  display: inline-block;
+  overflow: hidden;
+  padding: 0.06em 0;
+  /* عرض الـ mask يتغير بسلاسة بدل القفز */
+  transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  white-space: nowrap;
+}
+
+.chipText {
+  display: inline-block;
+  will-change: transform;
+  white-space: nowrap;
+}
+
+.nameInput {
+  display: inline-block;
+  min-width: 9ch;
+  padding: 0 0.1em 0.04em;
+  border: 0;
+  border-bottom: 1px dashed rgba(134, 197, 228, 0.55);
+  border-radius: 0;
+  background: transparent;
+  color: var(--f-ink);
+  font: inherit;
+  letter-spacing: inherit;
+  outline: none;
+  vertical-align: baseline;
+  transition: border-color 0.3s ease;
+}
+
+.nameInput::placeholder {
+  color: rgba(238, 236, 230, 0.35);
+}
+
+.nameInput:focus {
+  border-bottom: 1px solid var(--f-accent);
+}
+
+/* ── الأزرار ── */
+.actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+}
+
+/* منطقة المغناطيس أوسع من الزرار من غير ما تغيّر التخطيط */
+.zone {
+  padding: 34px;
+  margin: -34px;
+}
+
+.cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 1.15rem 2.4rem;
+  border-radius: 999px;
+  background: var(--f-accent);
+  color: #1b2730;
+  text-decoration: none;
+  overflow: hidden;
+  will-change: transform;
+  font-family: var(--font-orbitron), sans-serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.cta::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 130%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--f-ink);
+  transform: translate(-50%, 0) scale(0.2);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cta:hover::before {
+  transform: translate(-50%, -55%) scale(1);
+}
+
+.ctaLabel {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  will-change: transform;
+}
+
+.ctaLabel i {
+  display: inline-block;
+  font-style: normal;
+  transition: transform 0.35s ease;
+}
+
+.cta:hover .ctaLabel i {
+  transform: translate(3px, -3px);
+}
+
+.ghost {
+  position: relative;
+  padding-bottom: 4px;
+  color: var(--f-ink);
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.note {
+  max-width: 520px;
+  margin: 1.6rem 0 0;
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: var(--f-dim);
+}
+
+/* ── الثقة ── */
+.trust {
+  position: relative;
+  z-index: 2;
+  list-style: none;
+  margin: clamp(56px, 10vh, 110px) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(20px, 4vw, 64px);
+}
+
+.trustItem {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+}
+
+.tNum {
+  font-family: var(--font-orbitron), sans-serif;
+  font-size: clamp(28px, 3vw, 46px);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.tNum small {
+  margin-left: 0.1em;
+  font-size: 0.45em;
+  color: var(--f-accent);
+}
+
+.tLabel {
+  font-size: 0.88rem;
+  color: var(--f-dim);
+}
+
+.rule {
+  position: relative;
+  z-index: 2;
+  display: block;
+  height: 1px;
+  margin: clamp(32px, 6vh, 64px) 0;
+  background: var(--f-faint);
+  transform-origin: left center;
+}
+
+/* ── الروابط ── */
+.grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr;
+  gap: clamp(28px, 4vw, 64px);
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.8rem;
+}
+
+.colTitle {
+  margin: 0 0 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--f-dim);
+}
+
+.link,
+.big {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 4px;
+  color: var(--f-ink);
+  text-decoration: none;
+}
+
+.link {
+  font-size: clamp(15px, 1.15vw, 18px);
+}
+
+.big {
+  font-family: var(--font-orbitron), sans-serif;
+  font-size: clamp(15px, 1.6vw, 26px);
+  overflow-wrap: anywhere;
+}
+
+.link::after,
+.big::after,
+.ghost::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--f-accent);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.link:hover::after,
+.big:hover::after,
+.ghost:hover::after,
+.link:focus-visible::after,
+.big:focus-visible::after,
+.ghost:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+.link i {
+  display: inline-block;
+  font-style: normal;
+  transition: transform 0.3s ease;
+}
+
+.link:hover i {
+  transform: translate(3px, -3px);
+}
+
+/* ── الشريط السفلي ── */
+.bottom {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--f-faint);
+  font-size: 0.8rem;
+  color: var(--f-dim);
+}
+
+.bottomLinks {
+  display: flex;
+  gap: 1.6rem;
+}
+
+.bottomLinks a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.bottomLinks a:hover {
+  color: var(--f-ink);
+}
+
+.topBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem 1.2rem;
+  border-radius: 999px;
+  border: 1px solid rgba(238, 236, 230, 0.26);
+  background: transparent;
+  color: var(--f-ink);
+  font-family: var(--font-orbitron), sans-serif;
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.topBtn i {
+  font-style: normal;
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.topBtn:hover {
+  background: var(--f-accent);
+  border-color: var(--f-accent);
+  color: #1b2730;
+}
+
+.topBtn:hover i {
+  transform: translateY(-3px);
+}
+
+.cta:focus-visible,
+.chip:focus-visible,
+.link:focus-visible,
+.big:focus-visible,
+.ghost:focus-visible,
+.topBtn:focus-visible {
+  outline: 2px solid var(--f-accent);
+  outline-offset: 4px;
+}
+
+/* ── تابلت وموبايل ── */
+@media (max-width: 900px) {
+  .trust,
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .trustItem {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--f-faint);
+  }
+}
+
+@media (max-width: 768px) {
+  .spot {
+    display: none;
+  }
+
+  .sentence {
+    font-size: clamp(20px, 6vw, 30px);
+    line-height: 1.7;
+  }
+
+  .chip {
+    font-size: 0.9em;
+  }
+
+  .zone {
+    padding: 0;
+    margin: 0;
+  }
+
+  .bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 360px) {
+  .chip {
+    font-size: 0.8em;
+  }
+}
