@@ -873,6 +873,7 @@ export default function Blogs() {
     if (progPlaneRef.current) {
       progPlaneRef.current.style.transform = `translate3d(${p * window.innerWidth}px, -50%, 0) translateX(-50%)`;
     }
+    
   };
 
   
